@@ -1,6 +1,6 @@
 //
 // Deemo Engine
-// For Sonolus 0.3.7
+// For Sonolus 0.4.1
 //
 // A recreation of Deemo engine
 // By Burrito
@@ -33,20 +33,41 @@ UpdateNotePosition:Execute(
 
 PlayTapEffect:And(
     NoteEffect
-    Spawn(
-        4
-        Time
-        NotePos
-        NoteSize
-    )
-)
-PlayAutoTapEffect:And(
-    NoteEffect
-    Spawn(
-        4
-        NoteTime
-        NotePos
-        NoteSize
+    Execute(
+        Set(EntityMemory *NoteEffectX2 Subtract(Multiply(NotePos PosMultiplier) Multiply(NoteSize 2.5 SizeMultiplier)))
+        Set(EntityMemory *NoteEffectX3 Add(Multiply(NotePos PosMultiplier) Multiply(NoteSize 2.5 SizeMultiplier)))
+        Set(EntityMemory *NoteEffectX1 Multiply(NoteEffectX2 1.21053))
+        Set(EntityMemory *NoteEffectX4 Multiply(NoteEffectX3 1.21053))
+        Set(EntityMemory *NoteEffectX2 Multiply(NoteEffectX2 0.78947))
+        Set(EntityMemory *NoteEffectX3 Multiply(NoteEffectX3 0.78947))
+
+        SpawnParticleEffect(
+            ParticleEffectLaneC
+            Multiply(NoteBaseX1 1.52632) -1.75
+            Multiply(NoteBaseX1 0.47368) 0.25
+            Multiply(NoteBaseX2 0.47368) 0.25
+            Multiply(NoteBaseX2 1.52632) -1.75
+            0.7
+            0
+        )
+        SpawnParticleEffect(
+            ParticleEffectTapC
+            NoteEffectX1 -1.15
+            NoteEffectX2 -0.35
+            NoteEffectX3 -0.35
+            NoteEffectX4 -1.15
+            0.3
+            0
+        )
+        SpawnParticleEffect(
+            ParticleEffectTapL
+            NoteBaseX1 -0.75
+            NoteBaseX1 -0.35
+            NoteBaseX2 -0.35
+            NoteBaseX2 -0.75
+            0.3
+            0
+        )
     )
 )
 
@@ -136,15 +157,35 @@ PlayFlickSound:And(
 #1.shouldSpawn:Equal(Get(EntityInfoArray *State) Despawned)
 
 #1.initialize:Execute(
-    Set(EntityMemory *StageEffectAnimationTime -1000)
     Set(EntityMemory *StageCoverY Lerp(1 -0.75 StageCover))
+    And(
+        StageEffect
+        SpawnParticleEffect(
+            ParticleEffectJudgeLineL
+            StageX1 -0.75
+            StageX1 -0.7
+            StageX2 -0.7
+            StageX2 -0.75
+            6
+            1
+        )
+    )
 )
 
 #1.touch:Or(
     Auto
     And(
         TempTouchStarted
-        Set(EntityMemory *StageEffectAnimationTime Add(TempTouchST 1))
+        StageEffect
+        SpawnParticleEffect(
+            ParticleEffectSlotL
+            StageX1 -0.75
+            StageX1 -0.65
+            StageX2 -0.65
+            StageX2 -0.75
+            1
+            0
+        )
     )
 )
 
@@ -170,22 +211,6 @@ PlayFlickSound:And(
         StageX2 -0.76
         LayerJudgeLine
         1
-    )
-
-    And(
-        StageEffect
-        Execute(
-            Set(EntityMemory *StageEffectY2 Add(-0.75 Max(Multiply(Add(Sin(Time) 1) 0.02) Multiply(Subtract(StageEffectAnimationTime Time) 0.1))))
-            Draw(
-                TextureStageEffectLB
-                StageX1 -0.75
-                StageX1 StageEffectY2
-                StageX2 StageEffectY2
-                StageX2 -0.75
-                LayerStageEffect
-                1
-            )
-        )
     )
 )
 
@@ -238,7 +263,7 @@ PlayFlickSound:And(
             Auto
             GreaterOr(Time NoteTime)
             Execute(
-                PlayAutoTapEffect
+                PlayTapEffect
                 true
             )
         )
@@ -301,7 +326,7 @@ PlayFlickSound:And(
             Auto
             GreaterOr(Time NoteTime)
             Execute(
-                PlayAutoTapEffect
+                PlayTapEffect
                 true
             )
         )
@@ -335,114 +360,6 @@ PlayFlickSound:And(
 
 
 
-// #4: Note Effect
-
-#4.initialize:Execute(
-    Set(EntityMemory *EffectBaseX1 Subtract(Multiply(EffectPos PosMultiplier) Multiply(EffectSize SizeMultiplier)))
-    Set(EntityMemory *EffectBaseX2 Add(Multiply(EffectPos PosMultiplier) Multiply(EffectSize SizeMultiplier)))
-)
-
-#4.updateParallel:Execute(
-    Set(EntityMemory *EffectTimeDistance Subtract(Time EffectTime))
-    Or(
-        GreaterOr(EffectTimeDistance 0.7)
-        Execute(
-            Set(
-                EntityMemory
-                *EffectScale
-                Multiply(
-                    0.8
-                    If(
-                        LessOr(EffectTimeDistance 0.15)
-                        EaseOutCubic(Divide(EffectTimeDistance 0.15))
-                        Unlerp(0.7 0.15 EffectTimeDistance)
-                    )
-                )
-            )
-            Set(
-                EntityMemory
-                *EffectAlpha
-                If(
-                    LessOr(EffectTimeDistance 0.15)
-                    1
-                    Unlerp(0.7 0.15 EffectTimeDistance)
-                )
-            )
-            Set(EntityMemory *EffectY1 Subtract(-0.75 EffectScale))
-            Set(EntityMemory *EffectY2 Add(-0.75 EffectScale))
-            Set(EntityMemory *EffectScale Divide(Subtract(1.15 EffectY1) 1.9))
-            Set(EntityMemory *EffectX1 Multiply(EffectBaseX1 EffectScale))
-            Set(EntityMemory *EffectX4 Multiply(EffectBaseX2 EffectScale))
-            Set(EntityMemory *EffectScale Divide(Subtract(1.15 EffectY2) 1.9))
-            Set(EntityMemory *EffectX2 Multiply(EffectBaseX1 EffectScale))
-            Set(EntityMemory *EffectX3 Multiply(EffectBaseX2 EffectScale))
-            Draw(
-                TextureEffectCB
-                EffectX1 EffectY1
-                EffectX2 EffectY2
-                EffectX3 EffectY2
-                EffectX4 EffectY1
-                LayerNoteEffectCB
-                EffectAlpha
-            )
-
-            And(
-                LessOr(EffectTimeDistance 0.3)
-                Execute(
-                    Set(EntityMemory *EffectScale EaseOutCubic(Divide(EffectTimeDistance 0.3)))
-                    Set(EntityMemory *EffectAlpha Unlerp(0.3 0 EffectTimeDistance))
-                    Set(EntityMemory *EffectX2 Subtract(Multiply(EffectPos PosMultiplier) Multiply(EffectSize EffectScale 2.5 SizeMultiplier)))
-                    Set(EntityMemory *EffectX3 Add(Multiply(EffectPos PosMultiplier) Multiply(EffectSize EffectScale 2.5 SizeMultiplier)))
-                    Set(EntityMemory *EffectY1 Subtract(-0.75 Multiply(0.4 EffectScale)))
-                    Set(EntityMemory *EffectY2 Add(-0.75 Multiply(0.4 EffectScale)))
-                    Set(EntityMemory *EffectScale Divide(Subtract(1.15 EffectY1) 1.9))
-                    Set(EntityMemory *EffectX1 Multiply(EffectX2 EffectScale))
-                    Set(EntityMemory *EffectX4 Multiply(EffectX3 EffectScale))
-                    Set(EntityMemory *EffectScale Divide(Subtract(1.15 EffectY2) 1.9))
-                    Set(EntityMemory *EffectX2 Multiply(EffectX2 EffectScale))
-                    Set(EntityMemory *EffectX3 Multiply(EffectX3 EffectScale))
-                    Draw(
-                        TextureEffectCF
-                        EffectX1 EffectY1
-                        EffectX2 EffectY2
-                        EffectX3 EffectY2
-                        EffectX4 EffectY1
-                        LayerNoteEffectCF
-                        EffectAlpha
-                    )
-
-                    Set(
-                        EntityMemory
-                        *EffectY2
-                        Add(
-                            -0.75
-                            Multiply(
-                                0.4
-                                If(
-                                    LessOr(EffectTimeDistance 0.15)
-                                    EaseOutCubic(Divide(EffectTimeDistance 0.15))
-                                    Unlerp(0.3 0.15 EffectTimeDistance)
-                                )
-                            )
-                        )
-                    )
-                    Draw(
-                        TextureEffectLF
-                        EffectBaseX1 -0.75
-                        EffectBaseX1 EffectY2
-                        EffectBaseX2 EffectY2
-                        EffectBaseX2 -0.75
-                        LayerNoteEffectLF
-                        1
-                    )
-                )
-            )
-        )
-    )
-)
-
-
-
 // Constants
 
 true:1
@@ -463,10 +380,6 @@ MinEffectTime:0.02
 
 LayerStageCover:1000
 LayerNote:100
-LayerNoteEffectLF:52
-LayerNoteEffectCF:51
-LayerNoteEffectCB:50
-LayerStageEffect:1
 LayerJudgeLine:0
 
 JudgmentMiss:0
@@ -480,10 +393,6 @@ JudgmentGood:3
 
 TextureTapNote:1001
 TextureSlideNote:2001
-TextureEffectLF:34001
-TextureEffectCF:32001
-TextureEffectCB:31001
-TextureStageEffectLB:33000
 TextureJudgeLine:41000
 TextureStageCover:42000
 
@@ -497,6 +406,16 @@ EffectGreat:2
 EffectGood:3
 EffectFlick:4
 EffectEmpty:5
+
+
+
+// Particle Effect identifiers
+
+ParticleEffectTapC:110001
+ParticleEffectTapL:120001
+ParticleEffectLaneC:310000
+ParticleEffectSlotL:420000
+ParticleEffectJudgeLineL:520000
 
 
 
@@ -688,12 +607,8 @@ TempTouchVW:Get(TemporaryData *TempTouchVW)
 
 // #1 Memory Layout
 
-*StageEffectAnimationTime:0
-*StageEffectY2:1
-*StageCoverY:2
+*StageCoverY:0
 
-StageEffectAnimationTime:Get(EntityMemory *StageEffectAnimationTime)
-StageEffectY2:Get(EntityMemory *StageEffectY2)
 StageCoverY:Get(EntityMemory *StageCoverY)
 
 
@@ -711,6 +626,10 @@ StageCoverY:Get(EntityMemory *StageCoverY)
 *NoteY1:40
 *NoteY2:41
 *NoteAlpha:42
+*NoteEffectX1:43
+*NoteEffectX2:44
+*NoteEffectX3:45
+*NoteEffectX4:46
 
 InputState:Get(EntityMemory *InputState)
 NoteBaseX1:Get(EntityMemory *NoteBaseX1)
@@ -723,6 +642,10 @@ NoteX2:Get(EntityMemory *NoteX2)
 NoteY1:Get(EntityMemory *NoteY1)
 NoteY2:Get(EntityMemory *NoteY2)
 NoteAlpha:Get(EntityMemory *NoteAlpha)
+NoteEffectX1:Get(EntityMemory *NoteEffectX1)
+NoteEffectX2:Get(EntityMemory *NoteEffectX2)
+NoteEffectX3:Get(EntityMemory *NoteEffectX3)
+NoteEffectX4:Get(EntityMemory *NoteEffectX4)
 
 
 
@@ -743,37 +666,3 @@ NoteSize:Get(EntityData *NoteSize)
 *TerminationTime:0
 
 TerminationTime:Get(EntityMemory *TerminationTime)
-
-
-
-// #4 Memory Layout
-
-*EffectTime:0
-*EffectPos:1
-*EffectSize:2
-*EffectBaseX1:3
-*EffectBaseX2:4
-*EffectTimeDistance:5
-*EffectScale:6
-*EffectAlpha:7
-*EffectY1:8
-*EffectY2:9
-*EffectX1:10
-*EffectX2:11
-*EffectX3:12
-*EffectX4:13
-
-EffectTime:Get(EntityMemory *EffectTime)
-EffectPos:Get(EntityMemory *EffectPos)
-EffectSize:Get(EntityMemory *EffectSize)
-EffectBaseX1:Get(EntityMemory *EffectBaseX1)
-EffectBaseX2:Get(EntityMemory *EffectBaseX2)
-EffectTimeDistance:Get(EntityMemory *EffectTimeDistance)
-EffectScale:Get(EntityMemory *EffectScale)
-EffectAlpha:Get(EntityMemory *EffectAlpha)
-EffectY1:Get(EntityMemory *EffectY1)
-EffectY2:Get(EntityMemory *EffectY2)
-EffectX1:Get(EntityMemory *EffectX1)
-EffectX2:Get(EntityMemory *EffectX2)
-EffectX3:Get(EntityMemory *EffectX3)
-EffectX4:Get(EntityMemory *EffectX4)
