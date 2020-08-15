@@ -1,6 +1,6 @@
 //
 // Deemo Engine
-// For Sonolus 0.4.1
+// For Sonolus 0.4.2
 //
 // A recreation of Deemo engine
 // By Burrito
@@ -34,31 +34,30 @@ UpdateNotePosition:Execute(
 PlayTapEffect:And(
     NoteEffect
     Execute(
-        Set(EntityMemory *NoteEffectX2 Subtract(Multiply(NotePos PosMultiplier) Multiply(NoteSize 2.5 SizeMultiplier)))
-        Set(EntityMemory *NoteEffectX3 Add(Multiply(NotePos PosMultiplier) Multiply(NoteSize 2.5 SizeMultiplier)))
-        Set(EntityMemory *NoteEffectX1 Multiply(NoteEffectX2 1.21053))
-        Set(EntityMemory *NoteEffectX4 Multiply(NoteEffectX3 1.21053))
-        Set(EntityMemory *NoteEffectX2 Multiply(NoteEffectX2 0.78947))
-        Set(EntityMemory *NoteEffectX3 Multiply(NoteEffectX3 0.78947))
-
+        Set(EntityMemory *NoteEffectXOffset Multiply(NotePos PosMultiplier 0.52631))
         SpawnParticleEffect(
             ParticleEffectLaneC
-            Multiply(NoteBaseX1 1.52632) -1.75
-            Multiply(NoteBaseX1 0.47368) 0.25
-            Multiply(NoteBaseX2 0.47368) 0.25
-            Multiply(NoteBaseX2 1.52632) -1.75
+            Add(NoteBaseX1 NoteEffectXOffset) -1.75
+            Subtract(NoteBaseX1 NoteEffectXOffset) 0.25
+            Subtract(NoteBaseX2 NoteEffectXOffset) 0.25
+            Add(NoteBaseX2 NoteEffectXOffset) -1.75
             0.7
             0
         )
+
+        Set(EntityMemory *NoteEffectX1 Subtract(Multiply(NotePos PosMultiplier) Multiply(NoteSize 2.5 SizeMultiplier)))
+        Set(EntityMemory *NoteEffectX2 Add(Multiply(NotePos PosMultiplier) Multiply(NoteSize 2.5 SizeMultiplier)))
+        Set(EntityMemory *NoteEffectXOffset Multiply(NotePos PosMultiplier 0.21052))
         SpawnParticleEffect(
             ParticleEffectTapC
-            NoteEffectX1 -1.15
-            NoteEffectX2 -0.35
-            NoteEffectX3 -0.35
-            NoteEffectX4 -1.15
+            Add(NoteEffectX1 NoteEffectXOffset) -1.15
+            Subtract(NoteEffectX1 NoteEffectXOffset) -0.35
+            Subtract(NoteEffectX2 NoteEffectXOffset) -0.35
+            Add(NoteEffectX2 NoteEffectXOffset) -1.15
             0.3
             0
         )
+
         SpawnParticleEffect(
             ParticleEffectTapL
             NoteBaseX1 -0.75
@@ -628,8 +627,7 @@ StageCoverY:Get(EntityMemory *StageCoverY)
 *NoteAlpha:42
 *NoteEffectX1:43
 *NoteEffectX2:44
-*NoteEffectX3:45
-*NoteEffectX4:46
+*NoteEffectXOffset:45
 
 InputState:Get(EntityMemory *InputState)
 NoteBaseX1:Get(EntityMemory *NoteBaseX1)
@@ -644,8 +642,7 @@ NoteY2:Get(EntityMemory *NoteY2)
 NoteAlpha:Get(EntityMemory *NoteAlpha)
 NoteEffectX1:Get(EntityMemory *NoteEffectX1)
 NoteEffectX2:Get(EntityMemory *NoteEffectX2)
-NoteEffectX3:Get(EntityMemory *NoteEffectX3)
-NoteEffectX4:Get(EntityMemory *NoteEffectX4)
+NoteEffectXOffset:Get(EntityMemory *NoteEffectXOffset)
 
 
 
