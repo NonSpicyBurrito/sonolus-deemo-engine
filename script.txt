@@ -83,17 +83,7 @@ PlayFlickSound:And(
 
 // #0: Initialization
 
-#0.updateSequential:Execute(
-    Set(LevelMemory *StageX1 Multiply(AspectRatio -1))
-    Set(LevelMemory *StageX2 AspectRatio)
-    Set(LevelMemory *PosMultiplier Multiply(AspectRatio 0.35))
-    Set(LevelMemory *SizeMultiplier Multiply(AspectRatio 0.17))
-    Set(LevelMemory *NoteScreenTime Multiply(10.1 Power(0.707 NoteSpeed)))
-    Set(LevelMemory *NoteBaseY1 Subtract(-1.9 SizeMultiplier))
-    Set(LevelMemory *NoteBaseY2 Add(-1.9 SizeMultiplier))
-    Set(LevelMemory *NoteTimeOffset Divide(LevelAudioOffset 1000))
-    Set(LevelMemory *InputOffset Add(DeviceInputOffset Divide(LevelInputOffset 1000)))
-
+#0.preprocess:Execute(
     SetShifted(LevelUI *UIMenu *UIAnchorX Subtract(0.05 AspectRatio))
     SetShifted(LevelUI *UIMenu *UIAnchorY 0.95)
     SetShifted(LevelUI *UIMenu *UIPivotX 0)
@@ -145,6 +135,18 @@ PlayFlickSound:And(
     SetShifted(LevelUI *UIScoreValue *UIHeight 0.15)
     SetShifted(LevelUI *UIScoreValue *UIAlpha 1)
     SetShifted(LevelUI *UIScoreValue *UIHorizontalAlign 1)
+)
+
+#0.updateSequential:Execute(
+    Set(LevelMemory *StageX1 Multiply(AspectRatio -1))
+    Set(LevelMemory *StageX2 AspectRatio)
+    Set(LevelMemory *PosMultiplier Multiply(AspectRatio 0.35))
+    Set(LevelMemory *SizeMultiplier Multiply(AspectRatio 0.17))
+    Set(LevelMemory *NoteScreenTime Multiply(10.1 Power(0.707 NoteSpeed)))
+    Set(LevelMemory *NoteBaseY1 Subtract(-1.9 SizeMultiplier))
+    Set(LevelMemory *NoteBaseY2 Add(-1.9 SizeMultiplier))
+    Set(LevelMemory *NoteTimeOffset Divide(LevelAudioOffset 1000))
+    Set(LevelMemory *InputOffset Add(DeviceInputOffset Divide(LevelInputOffset 1000)))
 
     true
 )
