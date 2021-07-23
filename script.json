@@ -25,14 +25,6 @@
             ]
         }
     ],
-    "entities": [
-        {
-            "archetype": 0
-        },
-        {
-            "archetype": 1
-        }
-    ],
     "archetypes": [
         {
             "script": 0

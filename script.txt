@@ -1,6 +1,6 @@
 //
 // Deemo Engine
-// For Sonolus 0.4.6
+// For Sonolus 0.5.3
 //
 // A recreation of Deemo engine
 // By Burrito
@@ -167,8 +167,6 @@ PlayFlickSound:And(
     Set(LevelMemory *NoteScreenTime Multiply(10.1 Power(0.707 NoteSpeed)))
     Set(LevelMemory *NoteBaseY1 Subtract(-1.9 SizeMultiplier))
     Set(LevelMemory *NoteBaseY2 Add(-1.9 SizeMultiplier))
-    Set(LevelMemory *NoteTimeOffset Divide(LevelAudioOffset 1000))
-    Set(LevelMemory *InputOffset Add(DeviceInputOffset Divide(LevelInputOffset 1000)))
 
     true
 )
@@ -253,7 +251,7 @@ PlayFlickSound:And(
                 PlayScheduled(EffectPerfect NoteTime MinEffectTime)
             )
             Set(EntityInput *Judgment JudgmentPerfect)
-            Set(EntityInput *Bucket 1)
+            Set(EntityInput *Bucket 0)
         )
     )
 )
@@ -271,7 +269,7 @@ PlayFlickSound:And(
             Set(TemporaryMemory *TempTouchOccupied true)
             Set(EntityMemory *InputState Terminated)
             Set(EntityInput *Judgment JudgeSimple(Subtract(TempTouchST InputOffset) NoteTime PerfectWindow GreatWindow GoodWindow))
-            Set(EntityInput *Bucket 1)
+            Set(EntityInput *Bucket 0)
             Set(EntityInput *BucketValue Multiply(1000 Subtract(TempTouchST InputOffset NoteTime)))
             PlayTapEffect
             PlayJudgmentSound
@@ -323,7 +321,7 @@ PlayFlickSound:And(
                 PlayScheduled(EffectFlick NoteTime MinEffectTime)
             )
             Set(EntityInput *Judgment JudgmentPerfect)
-            Set(EntityInput *Bucket 2)
+            Set(EntityInput *Bucket 1)
         )
     )
 )
@@ -358,7 +356,7 @@ PlayFlickSound:And(
             Equal(InputState Terminated)
             Execute(
                 Set(EntityInput *Judgment JudgeSimple(TerminationTime NoteTime PerfectWindow GreatWindow GoodWindow))
-                Set(EntityInput *Bucket 2)
+                Set(EntityInput *Bucket 1)
                 Set(EntityInput *BucketValue Multiply(1000 Subtract(TerminationTime NoteTime)))
                 PlayTapEffect
                 PlayJudgmentSound
@@ -480,8 +478,6 @@ TemporaryData:101
 *NoteScreenTime:4
 *NoteBaseY1:5
 *NoteBaseY2:6
-*NoteTimeOffset:7
-*InputOffset:8
 
 StageX1:Get(LevelMemory *StageX1)
 StageX2:Get(LevelMemory *StageX2)
@@ -490,8 +486,6 @@ SizeMultiplier:Get(LevelMemory *SizeMultiplier)
 NoteScreenTime:Get(LevelMemory *NoteScreenTime)
 NoteBaseY1:Get(LevelMemory *NoteBaseY1)
 NoteBaseY2:Get(LevelMemory *NoteBaseY2)
-NoteTimeOffset:Get(LevelMemory *NoteTimeOffset)
-InputOffset:Get(LevelMemory *InputOffset)
 
 
 
@@ -500,36 +494,32 @@ InputOffset:Get(LevelMemory *InputOffset)
 *Time:0
 *DeltaTime:1
 *AspectRatio:2
-*DeviceAudioOffset:3
-*DeviceInputOffset:4
+*AudioOffset:3
+*InputOffset:4
 
 Time:Get(LevelData *Time)
 DeltaTime:Get(LevelData *DeltaTime)
 AspectRatio:Get(LevelData *AspectRatio)
-DeviceAudioOffset:Get(LevelData *DeviceAudioOffset)
-DeviceInputOffset:Get(LevelData *DeviceInputOffset)
+AudioOffset:Get(LevelData *AudioOffset)
+InputOffset:Get(LevelData *InputOffset)
 
 
 
 // Level Option Layout
 
 *Auto:0
-*LevelAudioOffset:1
-*LevelInputOffset:2
-*Speed:3
-*NoteSpeed:4
-*StageCover:5
-*SoundEffect:6
-*NoteEffect:7
-*StageEffect:8
-*UIJudgmentSize:9
-*UIJudgmentAlpha:10
-*UIComboSize:11
-*UIComboAlpha:12
+*Speed:1
+*NoteSpeed:2
+*StageCover:3
+*SoundEffect:4
+*NoteEffect:5
+*StageEffect:6
+*UIJudgmentSize:7
+*UIJudgmentAlpha:8
+*UIComboSize:9
+*UIComboAlpha:10
 
 Auto:Get(LevelOption *Auto)
-LevelAudioOffset:Get(LevelOption *LevelAudioOffset)
-LevelInputOffset:Get(LevelOption *LevelInputOffset)
 Speed:Get(LevelOption *Speed)
 NoteSpeed:Get(LevelOption *NoteSpeed)
 StageCover:Get(LevelOption *StageCover)
@@ -546,13 +536,13 @@ UIComboAlpha:Get(LevelOption *UIComboAlpha)
 // Level UI Layout
 
 *UIMenu:0
-*UIJudgment:11
-*UIComboValue:22
-*UIComboText:33
-*UIScoreBar:44
-*UIScoreValue:55
-*UILifeBar:66
-*UILifeValue:77
+*UIJudgment:10
+*UIComboValue:20
+*UIComboText:30
+*UIScoreBar:40
+*UIScoreValue:50
+*UILifeBar:60
+*UILifeValue:70
 
 *UIAnchorX:0
 *UIAnchorY:1
@@ -563,8 +553,7 @@ UIComboAlpha:Get(LevelOption *UIComboAlpha)
 *UIRotation:6
 *UIAlpha:7
 *UIHorizontalAlign:8
-*UIVerticalAlign:9
-*UIBackground:10
+*UIBackground:9
 
 
 
@@ -719,7 +708,7 @@ NoteEffectXOffset:Get(EntityMemory *NoteEffectXOffset)
 *NotePos:1
 *NoteSize:2
 
-NoteTime:Divide(Add(Get(EntityData *NoteTime) NoteTimeOffset) Speed)
+NoteTime:Divide(Get(EntityData *NoteTime) Speed)
 NotePos:Get(EntityData *NotePos)
 NoteSize:Get(EntityData *NoteSize)
 
