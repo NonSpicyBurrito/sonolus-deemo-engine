@@ -239,6 +239,11 @@ PlayFlickSound:And(
 
 // #2: Tap Note
 
+#2.preprocess:Or(
+    Auto
+    Set(EntityInput *Accuracy GoodWindow)
+)
+
 #2.shouldSpawn:IsNoteOnScreen
 
 #2.initialize:Execute(
@@ -269,8 +274,9 @@ PlayFlickSound:And(
             Set(TemporaryMemory *TempTouchOccupied true)
             Set(EntityMemory *InputState Terminated)
             Set(EntityInput *Judgment JudgeSimple(Subtract(TempTouchST InputOffset) NoteTime PerfectWindow GreatWindow GoodWindow))
+            Set(EntityInput *Accuracy Subtract(TempTouchST InputOffset NoteTime))
             Set(EntityInput *Bucket 0)
-            Set(EntityInput *BucketValue Multiply(1000 Subtract(TempTouchST InputOffset NoteTime)))
+            Set(EntityInput *BucketValue Multiply(1000 Accuracy))
             PlayTapEffect
             PlayJudgmentSound
         )
@@ -308,6 +314,11 @@ PlayFlickSound:And(
 
 
 // #3: Slide Note
+
+#3.preprocess:Or(
+    Auto
+    Set(EntityInput *Accuracy GoodWindow)
+)
 
 #3.shouldSpawn:IsNoteOnScreen
 
@@ -356,8 +367,9 @@ PlayFlickSound:And(
             Equal(InputState Terminated)
             Execute(
                 Set(EntityInput *Judgment JudgeSimple(TerminationTime NoteTime PerfectWindow GreatWindow GoodWindow))
+                Set(EntityInput *Accuracy Subtract(TerminationTime NoteTime))
                 Set(EntityInput *Bucket 1)
-                Set(EntityInput *BucketValue Multiply(1000 Subtract(TerminationTime NoteTime)))
+                Set(EntityInput *BucketValue Multiply(1000 Accuracy))
                 PlayTapEffect
                 PlayJudgmentSound
                 true
@@ -608,10 +620,12 @@ State:Get(EntityInfo *State)
 // Entity Input Layout
 
 *Judgment:0
-*Bucket:1
-*BucketValue:2
+*Accuracy:1
+*Bucket:2
+*BucketValue:3
 
 Judgment:Get(EntityInput *Judgment)
+Accuracy:Get(EntityInput *Accuracy)
 Bucket:Get(EntityInput *Bucket)
 BucketValue:Get(EntityInput *BucketValue)
 
