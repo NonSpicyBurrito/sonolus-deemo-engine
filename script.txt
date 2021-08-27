@@ -70,13 +70,13 @@ PlayTapEffect:And(
     )
 )
 
-PlayJudgmentSound:And(
+PlayTapJudgmentSound:And(
     SoundEffect
-    Play(Judgment MinEffectTime)
+    Play(Add(EffectMiss Judgment) MinEffectTime)
 )
-PlayFlickSound:And(
+PlaySlideJudgmentSound:And(
     SoundEffect
-    Play(EffectFlick MinEffectTime)
+    Play(Add(EffectMissAlternative Judgment) MinEffectTime)
 )
 
 
@@ -278,7 +278,7 @@ PlayFlickSound:And(
             Set(EntityInput *Bucket 0)
             Set(EntityInput *BucketValue Multiply(1000 Accuracy))
             PlayTapEffect
-            PlayJudgmentSound
+            PlayTapJudgmentSound
         )
     )
 )
@@ -329,7 +329,7 @@ PlayFlickSound:And(
         Execute(
             And(
                 SoundEffect
-                PlayScheduled(EffectFlick NoteTime MinEffectTime)
+                PlayScheduled(EffectPerfectAlternative NoteTime MinEffectTime)
             )
             Set(EntityInput *Judgment JudgmentPerfect)
             Set(EntityInput *Bucket 1)
@@ -371,7 +371,7 @@ PlayFlickSound:And(
                 Set(EntityInput *Bucket 1)
                 Set(EntityInput *BucketValue Multiply(1000 Accuracy))
                 PlayTapEffect
-                PlayJudgmentSound
+                PlaySlideJudgmentSound
                 true
             )
         )
@@ -437,8 +437,13 @@ EffectMiss:0
 EffectPerfect:1
 EffectGreat:2
 EffectGood:3
-EffectFlick:4
-EffectEmpty:5
+
+EffectMissAlternative:1000
+EffectPerfectAlternative:1001
+EffectGreatAlternative:1002
+EffectGoodAlternative:1003
+
+EffectStage:10000
 
 
 
