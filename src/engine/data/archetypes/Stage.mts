@@ -13,11 +13,12 @@ export class Stage extends Archetype {
     }
 
     initialize() {
-        this.playJudgmentLineEffect()
+        if (this.shouldPlayJudgmentLineEffect) this.playJudgmentLineEffect()
     }
 
     touch() {
         if (options.autoplay) return
+        if (!this.shouldPlayJudgmentLineEffect) return
 
         for (const touch of touches) {
             if (!touch.started) continue
@@ -30,6 +31,10 @@ export class Stage extends Archetype {
     updateParallel() {
         this.drawStage()
         this.drawStageCover()
+    }
+
+    get shouldPlayJudgmentLineEffect() {
+        return options.judgmentLineEffectEnabled && particle.effects.judgmentLine.exists
     }
 
     drawStage() {
