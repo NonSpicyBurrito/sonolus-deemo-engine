@@ -11,7 +11,7 @@ type Handler<T extends ChartObject> = (object: T) => {
     data: Record<string, number>
 }
 
-export const dcToLevelData = (dc: DC): LevelData => {
+export const dcToLevelData = (dc: DC, offset = 0): LevelData => {
     const entities: LevelDataEntity[] = [
         {
             archetype: 'Initialization',
@@ -37,7 +37,7 @@ export const dcToLevelData = (dc: DC): LevelData => {
     }
 
     return {
-        bgmOffset: 0,
+        bgmOffset: offset,
         entities,
     }
 }
