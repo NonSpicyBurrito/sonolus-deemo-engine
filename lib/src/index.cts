@@ -2,7 +2,9 @@ import { EngineInfo } from 'sonolus-core'
 import { Resource } from './Resource.cjs'
 
 export { dcToLevelData } from './dc/convert.cjs'
+export * from './dc/index.cjs'
 export { dsToDC } from './ds/convert.cjs'
+export * from './ds/index.cjs'
 
 export const version = '1.0.0'
 
