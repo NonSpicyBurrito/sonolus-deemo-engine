@@ -1,7 +1,7 @@
 import { DC } from '../dc/index.cjs'
-import { Chart } from './index.cjs'
+import { DS } from './index.cjs'
 
-export const chartToDC = (chart: Chart): DC => {
+export const dsToDC = (ds: DS): DC => {
     const dc: DC = [
         {
             type: 'bpm',
@@ -10,9 +10,9 @@ export const chartToDC = (chart: Chart): DC => {
         },
     ]
 
-    const slideIds = chart.links.flatMap((link) => link.notes.map((note) => note.$ref))
+    const slideIds = ds.links.flatMap((link) => link.notes.map((note) => note.$ref))
 
-    for (const note of chart.notes) {
+    for (const note of ds.notes) {
         if (note.pos > 2) continue
 
         dc.push({

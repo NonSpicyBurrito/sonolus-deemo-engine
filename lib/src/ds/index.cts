@@ -1,16 +1,16 @@
-export type Chart = {
-    notes: Note[]
-    links: Link[]
+export type DS = {
+    notes: DSNote[]
+    links: DSLink[]
 }
 
-export type Note = {
+export type DSNote = {
     $id: string
     pos: number
     size: number
     time: number
 }
 
-export type Link = {
+export type DSLink = {
     notes: {
         $ref: string
     }[]

@@ -47,15 +47,15 @@ Engine Thumbnail.
 -   `engineThumbnail.buffer`: buffer of file.
 -   `engineThumbnail.hash`: hash of file.
 
-### `chartToDC(chart)`
+### `dsToDC(ds)`
 
-Converts Deemo source chart to DC (Deemo Chart).
+Converts DS (Deemo Source) to DC (Deemo Chart).
 
--   `chart`: Deemo source chart.
+-   `ds`: Deemo Source.
 
 ### `dcToLevelData(dc, offset?)`
 
 Converts DC (Deemo Chart) to Level Data.
 
--   `dc`: Deemo chart.
+-   `dc`: Deemo Chart.
 -   `offset`: offset (default: `0`).

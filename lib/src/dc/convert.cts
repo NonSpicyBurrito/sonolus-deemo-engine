@@ -4,9 +4,9 @@ import {
     LevelData,
     LevelDataEntity,
 } from 'sonolus-core'
-import { BPMObject, ChartObject, DC, SlideNote, TapNote } from './index.cjs'
+import { DC, DCBPMChangeObject, DCObject, DCSlideNote, DCTapNote } from './index.cjs'
 
-type Handler<T extends ChartObject> = (object: T) => {
+type Handler<T extends DCObject> = (object: T) => {
     archetype: string
     data: Record<string, number>
 }
@@ -42,7 +42,7 @@ export const dcToLevelData = (dc: DC, offset = 0): LevelData => {
     }
 }
 
-const bpm: Handler<BPMObject> = (object) => ({
+const bpm: Handler<DCBPMChangeObject> = (object) => ({
     archetype: EngineArchetypeName.BpmChange,
     data: {
         [EngineArchetypeDataName.Beat]: object.beat,
@@ -50,7 +50,7 @@ const bpm: Handler<BPMObject> = (object) => ({
     },
 })
 
-const tap: Handler<TapNote> = (object) => ({
+const tap: Handler<DCTapNote> = (object) => ({
     archetype: 'TapNote',
     data: {
         [EngineArchetypeDataName.Beat]: object.beat,
@@ -59,7 +59,7 @@ const tap: Handler<TapNote> = (object) => ({
     },
 })
 
-const slide: Handler<SlideNote> = (object) => ({
+const slide: Handler<DCSlideNote> = (object) => ({
     archetype: 'SlideNote',
     data: {
         [EngineArchetypeDataName.Beat]: object.beat,
@@ -69,7 +69,7 @@ const slide: Handler<SlideNote> = (object) => ({
 })
 
 const handlers: {
-    [K in ChartObject['type']]: Handler<Extract<ChartObject, { type: K }>>
+    [K in DCObject['type']]: Handler<Extract<DCObject, { type: K }>>
 } = {
     bpm,
     tap,

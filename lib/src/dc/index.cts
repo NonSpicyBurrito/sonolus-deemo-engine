@@ -1,25 +1,25 @@
-export type DC = ChartObject[]
+export type DC = DCObject[]
 
-export type ChartObject = BPMObject | TapNote | SlideNote
+export type DCObject = DCBPMChangeObject | DCTapNote | DCSlideNote
 
-type ObjectBase = {
+type BaseDCObject = {
     beat: number
 }
 
-export type BPMObject = ObjectBase & {
+export type DCBPMChangeObject = BaseDCObject & {
     type: 'bpm'
     bpm: number
 }
 
-type NoteBase = ObjectBase & {
+type BaseDCNote = BaseDCObject & {
     lane: number
     size: number
 }
 
-export type TapNote = NoteBase & {
+export type DCTapNote = BaseDCNote & {
     type: 'tap'
 }
 
-export type SlideNote = NoteBase & {
+export type DCSlideNote = BaseDCNote & {
     type: 'slide'
 }
