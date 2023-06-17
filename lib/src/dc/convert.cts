@@ -4,7 +4,7 @@ import {
     LevelData,
     LevelDataEntity,
 } from 'sonolus-core'
-import { DC, DCBPMChangeObject, DCObject, DCSlideNote, DCTapNote } from './index.cjs'
+import { DC, DCBpmChangeObject, DCObject, DCSlideNote, DCTapNote } from './index.cjs'
 
 type Handler<T extends DCObject> = (object: T) => {
     archetype: string
@@ -42,7 +42,7 @@ export const dcToLevelData = (dc: DC, offset = 0): LevelData => {
     }
 }
 
-const bpm: Handler<DCBPMChangeObject> = (object) => ({
+const bpm: Handler<DCBpmChangeObject> = (object) => ({
     archetype: EngineArchetypeName.BpmChange,
     data: {
         [EngineArchetypeDataName.Beat]: object.beat,

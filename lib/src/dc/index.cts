@@ -1,12 +1,12 @@
 export type DC = DCObject[]
 
-export type DCObject = DCBPMChangeObject | DCTapNote | DCSlideNote
+export type DCObject = DCBpmChangeObject | DCTapNote | DCSlideNote
 
 type BaseDCObject = {
     beat: number
 }
 
-export type DCBPMChangeObject = BaseDCObject & {
+export type DCBpmChangeObject = BaseDCObject & {
     type: 'bpm'
     bpm: number
 }
