@@ -17,7 +17,7 @@ export const dsToDC = (ds: DS): DC => {
 
         dc.push({
             type: slideIds.includes(note.$id) ? 'slide' : 'tap',
-            beat: note.time,
+            beat: note._time,
             lane: note.pos * 4,
             size: note.size * 2,
         })

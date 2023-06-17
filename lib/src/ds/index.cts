@@ -7,7 +7,7 @@ export type DSNote = {
     $id: string
     pos: number
     size: number
-    time: number
+    _time: number
 }
 
 export type DSLink = {
