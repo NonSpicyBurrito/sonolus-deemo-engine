@@ -15,8 +15,6 @@ export class SlideNote extends Note {
         circular: particle.effects.slideNoteCircular,
     }
 
-    windows = windows.slideNote
-
     bucket = buckets.slideNote
 
     touch() {
@@ -36,7 +34,7 @@ export class SlideNote extends Note {
     complete(touch: Touch) {
         const hitTime = Math.max(touch.time, this.targetTime)
 
-        this.result.judgment = input.judge(hitTime, this.targetTime, this.windows)
+        this.result.judgment = input.judge(hitTime, this.targetTime, windows)
         this.result.accuracy = hitTime - this.targetTime
 
         this.result.bucket.index = this.bucket.index

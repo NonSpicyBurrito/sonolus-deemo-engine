@@ -11,6 +11,7 @@ import {
     linearEffectLayout,
     noteLayout,
 } from '../utils.mjs'
+import { windows } from '../windows.mjs'
 
 export abstract class Note extends Archetype {
     hasInput = true
@@ -29,8 +30,6 @@ export abstract class Note extends Archetype {
         linear: ParticleEffect
         circular: ParticleEffect
     }
-
-    abstract windows: JudgmentWindows
 
     abstract bucket: Bucket
 
@@ -71,9 +70,9 @@ export abstract class Note extends Archetype {
         })
 
         this.bucket.set({
-            perfect: toMs(this.windows.perfect),
-            great: toMs(this.windows.great),
-            good: toMs(this.windows.good),
+            perfect: toMs(windows.perfect),
+            great: toMs(windows.great),
+            good: toMs(windows.good),
         })
 
         this.life.miss = -40
@@ -104,8 +103,8 @@ export abstract class Note extends Archetype {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - Note.duration * options.hidden
 
-        this.inputTime.min = this.targetTime + this.windows.good.min + input.offset
-        this.inputTime.max = this.targetTime + this.windows.good.max + input.offset
+        this.inputTime.min = this.targetTime + windows.good.min + input.offset
+        this.inputTime.max = this.targetTime + windows.good.max + input.offset
 
         noteLayout(this.data.lane, this.data.size).copyTo(this.layout)
         this.z = getZ(layer.note, this.targetTime, this.data.lane)
@@ -117,7 +116,7 @@ export abstract class Note extends Archetype {
 
             this.result.bucket.index = this.bucket.index
         } else {
-            this.result.accuracy = this.windows.good.max
+            this.result.accuracy = windows.good.max
         }
     }
 

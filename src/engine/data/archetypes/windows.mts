@@ -1,19 +1,14 @@
-type Seconds = number | [min: number, max: number]
-
-const fromSeconds = (perfect: Seconds, great: Seconds, good: Seconds) => {
-    const toWindow = (seconds: Seconds) =>
-        typeof seconds === 'number'
-            ? { min: -seconds, max: seconds }
-            : { min: seconds[0], max: seconds[1] }
-
-    return {
-        perfect: toWindow(perfect),
-        great: toWindow(great),
-        good: toWindow(good),
-    }
-}
-
 export const windows = {
-    tapNote: fromSeconds(0.05, 0.1, 0.2),
-    slideNote: fromSeconds([0, 0.05], [0, 0.1], [0, 0.2]),
+    perfect: {
+        min: -0.05,
+        max: 0.05,
+    },
+    great: {
+        min: -0.1,
+        max: 0.1,
+    },
+    good: {
+        min: -0.2,
+        max: 0.2,
+    },
 }

@@ -16,8 +16,6 @@ export class TapNote extends Note {
         circular: particle.effects.tapNoteCircular,
     }
 
-    windows = windows.tapNote
-
     bucket = buckets.tapNote
 
     touch() {
@@ -38,7 +36,7 @@ export class TapNote extends Note {
     complete(touch: Touch) {
         markAsUsed(touch)
 
-        this.result.judgment = input.judge(touch.startTime, this.targetTime, this.windows)
+        this.result.judgment = input.judge(touch.startTime, this.targetTime, windows)
         this.result.accuracy = touch.startTime - this.targetTime
 
         this.result.bucket.index = this.bucket.index
