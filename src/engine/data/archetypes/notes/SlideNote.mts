@@ -2,6 +2,7 @@ import { options } from '../../../configuration/options.mjs'
 import { buckets } from '../../buckets.mjs'
 import { particle } from '../../particle.mjs'
 import { skin } from '../../skin.mjs'
+import { isUsed, markAsUsed } from '../InputManager.mjs'
 import { windows } from '../windows.mjs'
 import { Note } from './Note.mjs'
 
@@ -27,6 +28,18 @@ export class SlideNote extends Note {
 
     touch() {
         if (options.autoplay) return
+
+        if (time.now < this.inputTime.min) return
+
+        for (const touch of touches) {
+            if (!touch.started) continue
+            if (!this.hitbox.contains(touch.position)) continue
+            if (isUsed(touch)) continue
+
+            markAsUsed(touch)
+            this.complete(touch.startTime)
+            return
+        }
 
         if (time.now < this.slideTime) return
 
