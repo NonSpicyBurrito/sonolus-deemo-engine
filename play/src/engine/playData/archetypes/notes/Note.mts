@@ -84,7 +84,7 @@ export abstract class Note extends Archetype {
         this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
 
         this.visualTime.max = this.targetTime
-        this.visualTime.min = this.visualTime.max - Note.duration
+        this.visualTime.min = this.visualTime.max - this.duration
 
         this.spawnTime = Math.min(this.visualTime.min, this.scheduleSFXTime)
 
@@ -101,7 +101,7 @@ export abstract class Note extends Archetype {
 
     initialize() {
         if (options.hidden > 0)
-            this.visualTime.hidden = this.visualTime.max - Note.duration * options.hidden
+            this.visualTime.hidden = this.visualTime.max - this.duration * options.hidden
 
         this.inputTime.min = this.targetTime + windows.good.min + input.offset
         this.inputTime.max = this.targetTime + windows.good.max + input.offset
@@ -157,7 +157,7 @@ export abstract class Note extends Archetype {
     }
 
     render() {
-        const y = Note.approach(this.visualTime.min, this.visualTime.max, time.now)
+        const y = this.approach(this.visualTime.min, this.visualTime.max, time.now)
         const a = Math.unlerpClamped(0.175, 0.25, y)
 
         this.sprites.note.draw(this.layout.mul(y), this.z, a)
@@ -195,11 +195,11 @@ export abstract class Note extends Archetype {
         this.effects.circular.spawn(layout, 0.3, false)
     }
 
-    static approach(fromTime: number, toTime: number, now: number) {
+    approach(fromTime: number, toTime: number, now: number) {
         return 1.06 ** (45 * Math.remap(fromTime, toTime, -1, 0, now))
     }
 
-    static get duration() {
+    get duration() {
         return Math.lerp(0.35, 4, Math.unlerpClamped(12, 1, options.noteSpeed) ** 1.31)
     }
 }
