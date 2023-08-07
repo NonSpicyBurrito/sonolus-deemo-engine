@@ -1,7 +1,7 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
 import { options } from '../../../configuration/options.mjs'
 import { effect, sfxDistance } from '../../effect.mjs'
-import { layer } from '../layer.mjs'
+import { layer } from '../../layer.mjs'
 import {
     circularEffectLayout,
     getHitbox,
@@ -9,8 +9,8 @@ import {
     getZ,
     linearEffectLayout,
     noteLayout,
-} from '../utils.mjs'
-import { windows } from '../windows.mjs'
+} from '../../utils.mjs'
+import { windows } from '../../windows.mjs'
 
 export abstract class Note extends Archetype {
     hasInput = true

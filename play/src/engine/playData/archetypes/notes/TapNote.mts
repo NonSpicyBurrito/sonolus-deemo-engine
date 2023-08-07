@@ -2,8 +2,8 @@ import { options } from '../../../configuration/options.mjs'
 import { buckets } from '../../buckets.mjs'
 import { particle } from '../../particle.mjs'
 import { skin } from '../../skin.mjs'
+import { windows } from '../../windows.mjs'
 import { isUsed, markAsUsed } from '../InputManager.mjs'
-import { windows } from '../windows.mjs'
 import { Note } from './Note.mjs'
 
 export class TapNote extends Note {
