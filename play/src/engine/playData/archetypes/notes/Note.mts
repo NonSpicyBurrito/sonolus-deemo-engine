@@ -1,15 +1,9 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
 import { options } from '../../../configuration/options.mjs'
-import { effect, sfxDistance } from '../../effect.mjs'
-import { layer } from '../../skin.mjs'
-import {
-    circularEffectLayout,
-    getHitbox,
-    getScheduleSFXTime,
-    getZ,
-    linearEffectLayout,
-    noteLayout,
-} from '../../utils.mjs'
+import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
+import { noteHitbox, noteLayout } from '../../note.mjs'
+import { circularEffectLayout, linearEffectLayout } from '../../particle.mjs'
+import { getZ, layer } from '../../skin.mjs'
 import { windows } from '../../windows.mjs'
 
 export abstract class Note extends Archetype {
@@ -108,7 +102,7 @@ export abstract class Note extends Archetype {
         noteLayout(this.data.lane, this.data.size).copyTo(this.layout)
         this.z = getZ(layer.note, this.targetTime, this.data.lane)
 
-        getHitbox(this.data.lane, this.data.size).copyTo(this.hitbox)
+        noteHitbox(this.data.lane, this.data.size).copyTo(this.hitbox)
 
         if (options.autoplay) {
             this.result.judgment = Judgment.Perfect

@@ -18,3 +18,6 @@ export const layer = {
 
     judgmentLine: 0,
 }
+
+export const getZ = (layer: number, time: number, lane: number) =>
+    layer - time / 1000 - lane / 100000
