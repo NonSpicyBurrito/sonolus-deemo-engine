@@ -1,7 +1,6 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
 import { options } from '../../../configuration/options.mjs'
-import { effect } from '../../effect.mjs'
-import { minSFXDistance } from '../constants.mjs'
+import { effect, sfxDistance } from '../../effect.mjs'
 import { layer } from '../layer.mjs'
 import {
     circularEffectLayout,
@@ -151,7 +150,7 @@ export abstract class Note extends Archetype {
     }
 
     scheduleSFX() {
-        this.clips.perfect.schedule(this.targetTime, minSFXDistance)
+        this.clips.perfect.schedule(this.targetTime, sfxDistance)
 
         this.hasSFXScheduled = true
     }
@@ -170,11 +169,11 @@ export abstract class Note extends Archetype {
 
     playSFX() {
         if (this.result.judgment === Judgment.Perfect) {
-            this.clips.perfect.play(minSFXDistance)
+            this.clips.perfect.play(sfxDistance)
         } else if (this.result.judgment === Judgment.Great) {
-            this.clips.great.play(minSFXDistance)
+            this.clips.great.play(sfxDistance)
         } else if (this.result.judgment === Judgment.Good) {
-            this.clips.good.play(minSFXDistance)
+            this.clips.good.play(sfxDistance)
         }
     }
 

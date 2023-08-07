@@ -1,9 +1,9 @@
 import { options } from '../../configuration/options.mjs'
 import { particle } from '../particle.mjs'
 import { skin } from '../skin.mjs'
-import { note } from './constants.mjs'
+import { note } from './note.mjs'
 import { layer } from './layer.mjs'
-import { scaledScreen } from './shared.mjs'
+import { scaledScreen } from './scaledScreen.mjs'
 
 export class Stage extends Archetype {
     effectId = this.entityMemory(ParticleEffectInstanceId)

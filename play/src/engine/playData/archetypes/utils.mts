@@ -1,5 +1,5 @@
 import { skin } from '../skin.mjs'
-import { note } from './constants.mjs'
+import { note } from './note.mjs'
 
 export const noteLayout = (lane: number, size: number) =>
     new Rect({
