@@ -1,8 +1,7 @@
-import { note } from '../constants.mjs'
-import { layer } from '../layer.mjs'
+import { note } from '../../../../../shared/src/engine/data/note.mjs'
 import { particle } from '../particle.mjs'
-import { scaledScreen } from '../shared.mjs'
-import { skin } from '../skin.mjs'
+import { scaledScreen } from '../scaledScreen.mjs'
+import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     judgmentLine: skin.sprites.judgmentLine,

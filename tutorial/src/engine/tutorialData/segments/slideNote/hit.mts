@@ -1,7 +1,6 @@
 import { stage } from '../../components/stage.mjs'
 import { effect } from '../../effect.mjs'
-import { particle } from '../../particle.mjs'
-import { playCircularNoteEffect, playLinearNoteEffect } from '../../utils.mjs'
+import { particle, playCircularNoteEffect, playLinearNoteEffect } from '../../particle.mjs'
 
 export const slideNoteHit = {
     enter() {

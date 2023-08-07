@@ -8,3 +8,9 @@ export const skin = defineSkin({
         slideNote: SkinSpriteName.NoteHeadYellow,
     },
 })
+
+export const layer = {
+    note: 100,
+
+    judgmentLine: 0,
+}

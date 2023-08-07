@@ -1,8 +1,6 @@
-import { note } from '../constants.mjs'
-import { layer } from '../layer.mjs'
-import { segment } from '../shared.mjs'
-import { skin } from '../skin.mjs'
-import { approach, noteLayout } from '../utils.mjs'
+import { approach, note, noteLayout } from '../../../../../shared/src/engine/data/note.mjs'
+import { segment } from '../segment.mjs'
+import { layer, skin } from '../skin.mjs'
 
 const sprites = {
     tap: skin.sprites.tapNote,
@@ -28,9 +26,9 @@ export const noteDisplay = {
 
             skin.sprites.draw(id, new Rect({ l, r, t, b }), layer.note, a)
         } else {
-            const y = mode === 2 ? approach(segment.time) : 1
+            const y = mode === 2 ? approach(0, 2, segment.time) : 1
 
-            skin.sprites.draw(id, noteLayout().mul(y), layer.note, 1)
+            skin.sprites.draw(id, noteLayout(0, 2).mul(y), layer.note, 1)
         }
     },
 
