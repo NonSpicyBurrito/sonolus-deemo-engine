@@ -10,3 +10,11 @@ export const skin = defineSkin({
         cover: SkinSpriteName.StageCover,
     },
 })
+
+export const layer = {
+    cover: 1000,
+
+    note: 100,
+
+    judgmentLine: 0,
+}
