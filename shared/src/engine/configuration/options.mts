@@ -79,4 +79,4 @@ export const optionsDefinition = {
         step: 0.05,
         unit: UnitText.Percentage,
     },
-} as const satisfies Record<string, EngineConfigurationOption>
+} satisfies Record<string, EngineConfigurationOption>
