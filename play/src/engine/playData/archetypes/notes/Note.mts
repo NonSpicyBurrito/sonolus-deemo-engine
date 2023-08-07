@@ -1,8 +1,12 @@
 import { EngineArchetypeDataName } from 'sonolus-core'
+import { approach, noteLayout } from '../../../../../../shared/src/engine/data/note.mjs'
+import {
+    circularEffectLayout,
+    linearEffectLayout,
+} from '../../../../../../shared/src/engine/data/particle.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
-import { approach, note, noteHitbox, noteLayout } from '../../note.mjs'
-import { circularEffectLayout, linearEffectLayout } from '../../particle.mjs'
+import { note, noteHitbox } from '../../note.mjs'
 import { getZ, layer } from '../../skin.mjs'
 import { windows } from '../../windows.mjs'
 
