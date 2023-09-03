@@ -1,7 +1,6 @@
 import { chart } from './chart.mjs'
 
 export const panel = {
-    w: 20,
     h: 2,
 
     get count() {
@@ -9,7 +8,7 @@ export const panel = {
     },
 
     getX(time: number) {
-        return Math.floor(time / this.h) * this.w
+        return Math.floor(time / this.h)
     },
 
     getY(time: number) {

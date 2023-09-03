@@ -30,8 +30,8 @@ export const line = (sprite: SkinSprite, beat: number, a: number) => {
 
     sprite.draw(
         new Rect({
-            l: -8,
-            r: 8,
+            l: -0.4,
+            r: 0.4,
             b: -note.h / 5,
             t: note.h / 5,
         }).add(pos),
