@@ -6,7 +6,7 @@ export * from './dc/index.cjs'
 export { dsToDC } from './ds/convert.cjs'
 export * from './ds/index.cjs'
 
-export const version = '1.1.0'
+export const version = '1.2.0'
 
 export const engineInfo = {
     name: 'deemo',
