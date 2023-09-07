@@ -8,7 +8,7 @@ export class Stage extends Archetype {
     preprocess() {
         canvas.set({
             scroll: Scroll.LeftToRight,
-            size: panel.count * screen.h,
+            size: (panel.count * panel.w * screen.h) / 20,
         })
     }
 
@@ -23,13 +23,15 @@ export class Stage extends Archetype {
 
     renderPanels() {
         for (let i = 0; i < panel.count; i++) {
+            const x = i * panel.w
+
             const b = 0
             const t = panel.h
 
             skin.sprites.stageLeftBorder.draw(
                 new Rect({
-                    l: i - 0.4125,
-                    r: i - 0.4,
+                    l: x - 8.25,
+                    r: x - 8,
                     b,
                     t,
                 }),
@@ -38,8 +40,8 @@ export class Stage extends Archetype {
             )
             skin.sprites.stageRightBorder.draw(
                 new Rect({
-                    l: i + 0.4,
-                    r: i + 0.4125,
+                    l: x + 8,
+                    r: x + 8.25,
                     b,
                     t,
                 }),
@@ -48,8 +50,8 @@ export class Stage extends Archetype {
             )
             skin.sprites.stageMiddle.draw(
                 new Rect({
-                    l: i - 0.4,
-                    r: i + 0.4,
+                    l: x - 8,
+                    r: x + 8,
                     b,
                     t,
                 }),

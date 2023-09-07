@@ -29,8 +29,8 @@ export abstract class Note extends Archetype {
 
         this.sprite.draw(
             new Rect({
-                l: (this.data.lane - this.data.size) * 0.04 * 2 * 0.4,
-                r: (this.data.lane + this.data.size) * 0.04 * 2 * 0.4,
+                l: (this.data.lane - this.data.size) * 0.04 * 2 * 8,
+                r: (this.data.lane + this.data.size) * 0.04 * 2 * 8,
                 b: -note.h,
                 t: note.h,
             }).add(pos),
