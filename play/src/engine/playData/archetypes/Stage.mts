@@ -16,7 +16,6 @@ export class Stage extends Archetype {
     }
 
     touch() {
-        if (options.autoplay) return
         if (!this.shouldPlayJudgmentLineEffect) return
 
         for (const touch of touches) {
