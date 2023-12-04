@@ -1,4 +1,3 @@
-import { options } from '../../../configuration/options.mjs'
 import { buckets } from '../../buckets.mjs'
 import { particle } from '../../particle.mjs'
 import { skin } from '../../skin.mjs'
@@ -27,8 +26,6 @@ export class SlideNote extends Note {
     }
 
     touch() {
-        if (options.autoplay) return
-
         if (time.now < this.inputTime.min) return
 
         for (const touch of touches) {

@@ -6,11 +6,11 @@ export * from './dc/index.cjs'
 export { dsToDC } from './ds/convert.cjs'
 export * from './ds/index.cjs'
 
-export const version = '1.2.1'
+export const version = '1.3.0'
 
 export const engineInfo = {
     name: 'deemo',
-    version: 10,
+    version: 11,
     title: {
         en: 'Deemo',
     },
@@ -35,6 +35,7 @@ export const engineInfo = {
 
 export const engineConfiguration = new Resource('EngineConfiguration')
 export const enginePlayData = new Resource('EnginePlayData')
+export const engineWatchData = new Resource('EngineWatchData')
 export const enginePreviewData = new Resource('EnginePreviewData')
 export const engineTutorialData = new Resource('EngineTutorialData')
 export const engineThumbnail = new Resource('thumbnail.png')

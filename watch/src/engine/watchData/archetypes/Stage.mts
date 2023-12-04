@@ -5,28 +5,21 @@ import { scaledScreen } from '../scaledScreen.mjs'
 import { layer, skin } from '../skin.mjs'
 
 export class Stage extends Archetype {
-    effectId = this.entityMemory(ParticleEffectInstanceId)
+    spawnTime() {
+        return -999999
+    }
 
-    spawnOrder() {
-        return 2
+    despawnTime() {
+        return 999999
     }
 
     initialize() {
         if (this.shouldPlayJudgmentLineEffect) this.playJudgmentLineEffect()
     }
 
-    touch() {
-        if (!this.shouldPlayJudgmentLineEffect) return
-
-        for (const touch of touches) {
-            if (!touch.started) continue
-
-            this.playJudgmentLineEffect()
-            return
-        }
-    }
-
     updateParallel() {
+        if (this.shouldPlayJudgmentLineEffect && time.skip) this.playJudgmentLineEffect()
+
         this.drawStage()
         this.drawStageCover()
     }
@@ -69,7 +62,6 @@ export class Stage extends Archetype {
             b: 0,
         }).translate(0, 1)
 
-        particle.effects.destroy(this.effectId)
-        this.effectId = particle.effects.judgmentLine.spawn(layout, 6, true)
+        particle.effects.judgmentLine.spawn(layout, 6, true)
     }
 }
