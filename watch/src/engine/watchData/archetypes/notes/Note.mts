@@ -4,6 +4,7 @@ import {
     circularEffectLayout,
     linearEffectLayout,
 } from '../../../../../../shared/src/engine/data/particle.mjs'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, sfxDistance } from '../../effect.mjs'
 import { note } from '../../note.mjs'
@@ -18,6 +19,8 @@ export abstract class Note extends Archetype {
         linear: ParticleEffect
         circular: ParticleEffect
     }
+
+    abstract bucket: Bucket
 
     import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
@@ -41,6 +44,17 @@ export abstract class Note extends Archetype {
     z = this.entityMemory(Number)
 
     globalPreprocess() {
+        const toMs = ({ min, max }: JudgmentWindow) => ({
+            min: Math.round(min * 1000),
+            max: Math.round(max * 1000),
+        })
+
+        this.bucket.set({
+            perfect: toMs(windows.perfect),
+            great: toMs(windows.great),
+            good: toMs(windows.good),
+        })
+
         this.life.miss = -40
     }
 
@@ -61,6 +75,13 @@ export abstract class Note extends Archetype {
         }
 
         this.result.time = this.targetTime
+
+        if (!replay.isReplay) {
+            this.result.bucket.index = this.bucket.index
+        } else if (this.import.judgment) {
+            this.result.bucket.index = this.bucket.index
+            this.result.bucket.value = this.import.accuracy * 1000
+        }
     }
 
     spawnTime() {

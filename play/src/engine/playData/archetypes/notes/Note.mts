@@ -4,11 +4,11 @@ import {
     circularEffectLayout,
     linearEffectLayout,
 } from '../../../../../../shared/src/engine/data/particle.mjs'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
 import { note, noteHitbox } from '../../note.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { windows } from '../../windows.mjs'
 
 export abstract class Note extends Archetype {
     hasInput = true

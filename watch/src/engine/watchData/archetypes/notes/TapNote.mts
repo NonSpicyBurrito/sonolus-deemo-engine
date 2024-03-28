@@ -1,3 +1,4 @@
+import { buckets } from '../../buckets.mjs'
 import { particle } from '../../particle.mjs'
 import { skin } from '../../skin.mjs'
 import { Note } from './Note.mjs'
@@ -9,4 +10,6 @@ export class TapNote extends Note {
         linear: particle.effects.tapNoteLinear,
         circular: particle.effects.tapNoteCircular,
     }
+
+    bucket = buckets.tapNote
 }
