@@ -23,6 +23,8 @@ export abstract class Note extends Archetype {
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
+        judgment: { name: EngineArchetypeDataName.Judgment, type: DataType<Judgment> },
+        accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
     })
 
     targetTime = this.entityMemory(Number)
@@ -50,7 +52,13 @@ export abstract class Note extends Archetype {
 
         if (options.mirror) this.import.lane *= -1
 
-        if (options.sfxEnabled) this.scheduleSFX()
+        if (options.sfxEnabled) {
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
+            } else {
+                this.scheduleSFX()
+            }
+        }
 
         this.result.time = this.targetTime
     }
@@ -60,7 +68,7 @@ export abstract class Note extends Archetype {
     }
 
     despawnTime() {
-        return this.visualTime.max
+        return this.hitTime
     }
 
     initialize() {
@@ -82,6 +90,10 @@ export abstract class Note extends Archetype {
         this.despawnTerminate()
     }
 
+    get hitTime() {
+        return this.targetTime + (replay.isReplay ? this.import.accuracy : 0)
+    }
+
     globalInitialize() {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
@@ -91,7 +103,13 @@ export abstract class Note extends Archetype {
     }
 
     scheduleSFX() {
-        effect.clips.perfect.schedule(this.targetTime, sfxDistance)
+        effect.clips.perfect.schedule(this.hitTime, sfxDistance)
+    }
+
+    scheduleReplaySFX() {
+        if (!this.import.judgment) return
+
+        this.scheduleSFX()
     }
 
     render() {
@@ -102,6 +120,8 @@ export abstract class Note extends Archetype {
     }
 
     despawnTerminate() {
+        if (replay.isReplay && !this.import.judgment) return
+
         if (options.noteEffectEnabled) this.playNoteEffects()
     }
 
