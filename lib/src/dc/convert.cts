@@ -18,10 +18,6 @@ export const dcToLevelData = (dc: DC, offset = 0): LevelData => {
             data: [],
         },
         {
-            archetype: 'InputManager',
-            data: [],
-        },
-        {
             archetype: 'Stage',
             data: [],
         },
