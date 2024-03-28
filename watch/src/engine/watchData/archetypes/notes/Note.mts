@@ -19,7 +19,7 @@ export abstract class Note extends Archetype {
         circular: ParticleEffect
     }
 
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
@@ -43,12 +43,12 @@ export abstract class Note extends Archetype {
     }
 
     preprocess() {
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
         this.visualTime.max = this.targetTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        if (options.mirror) this.data.lane *= -1
+        if (options.mirror) this.import.lane *= -1
 
         if (options.sfxEnabled) this.scheduleSFX()
 
@@ -86,8 +86,8 @@ export abstract class Note extends Archetype {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        noteLayout(this.data.lane, this.data.size).copyTo(this.layout)
-        this.z = getZ(layer.note, this.targetTime, this.data.lane)
+        noteLayout(this.import.lane, this.import.size).copyTo(this.layout)
+        this.z = getZ(layer.note, this.targetTime, this.import.lane)
     }
 
     scheduleSFX() {
@@ -111,13 +111,13 @@ export abstract class Note extends Archetype {
     }
 
     playLinearNoteEffect() {
-        const layout = linearEffectLayout(this.data.lane, this.data.size)
+        const layout = linearEffectLayout(this.import.lane, this.import.size)
 
         this.effects.linear.spawn(layout, 0.3, false)
     }
 
     playCircularNoteEffect() {
-        const layout = circularEffectLayout(this.data.lane, this.data.size)
+        const layout = circularEffectLayout(this.import.lane, this.import.size)
 
         this.effects.circular.spawn(layout, 0.3, false)
     }

@@ -1,5 +1,5 @@
 import { resolve } from 'node:path'
-import { EngineInfo } from 'sonolus-core'
+import { DatabaseEngineItem } from 'sonolus-core'
 
 export { dcToLevelData } from './dc/convert.cjs'
 export * from './dc/index.cjs'
@@ -8,9 +8,9 @@ export * from './ds/index.cjs'
 
 export const version = '1.3.0'
 
-export const engineInfo = {
+export const databaseEngineItem = {
     name: 'deemo',
-    version: 11,
+    version: 12,
     title: {
         en: 'Deemo',
     },
@@ -31,7 +31,7 @@ export const engineInfo = {
             'https://github.com/NonSpicyBurrito/sonolus-deemo-engine',
         ].join('\n'),
     },
-} as const satisfies Partial<EngineInfo>
+} as const satisfies Partial<DatabaseEngineItem>
 
 export const engineConfigurationPath = resolve(__dirname, 'EngineConfiguration')
 export const enginePlayDataPath = resolve(__dirname, 'EnginePlayData')

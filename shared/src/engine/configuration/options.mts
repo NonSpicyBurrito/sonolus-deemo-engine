@@ -1,8 +1,8 @@
-import { EngineConfigurationOption, NameText, UnitText } from 'sonolus-core'
+import { EngineConfigurationOption, Text } from 'sonolus-core'
 
 export const optionsDefinition = {
     speed: {
-        name: NameText.LevelSpeed,
+        name: Text.Speed,
         standard: true,
         advanced: true,
         type: 'slider',
@@ -10,10 +10,10 @@ export const optionsDefinition = {
         min: 0.5,
         max: 2,
         step: 0.05,
-        unit: UnitText.Percentage,
+        unit: Text.PercentageUnit,
     },
     hidden: {
-        name: NameText.Hidden,
+        name: Text.Hidden,
         standard: true,
         advanced: true,
         type: 'slider',
@@ -21,10 +21,10 @@ export const optionsDefinition = {
         min: 0,
         max: 1,
         step: 0.05,
-        unit: UnitText.Percentage,
+        unit: Text.PercentageUnit,
     },
     noteSpeed: {
-        name: NameText.NoteSpeed,
+        name: Text.NoteSpeed,
         scope: 'Deemo',
         type: 'slider',
         def: 6,
@@ -33,36 +33,36 @@ export const optionsDefinition = {
         step: 0.1,
     },
     mirror: {
-        name: NameText.MirrorLevel,
+        name: Text.Mirror,
         type: 'toggle',
         def: 0,
     },
     sfxEnabled: {
-        name: NameText.SFX,
+        name: Text.Effect,
         scope: 'Deemo',
         type: 'toggle',
         def: 1,
     },
     autoSFX: {
-        name: NameText.AutoSFX,
+        name: Text.EffectAuto,
         scope: 'Deemo',
         type: 'toggle',
         def: 0,
     },
     noteEffectEnabled: {
-        name: NameText.NoteEffect,
+        name: Text.NoteEffect,
         scope: 'Deemo',
         type: 'toggle',
         def: 1,
     },
     judgmentLineEffectEnabled: {
-        name: NameText.JudgmentLineEffect,
+        name: Text.JudgelineEffect,
         scope: 'Deemo',
         type: 'toggle',
         def: 1,
     },
     stageCover: {
-        name: NameText.VerticalStageCover,
+        name: Text.StageCoverVertical,
         scope: 'Deemo',
         advanced: true,
         type: 'slider',
@@ -70,6 +70,6 @@ export const optionsDefinition = {
         min: 0,
         max: 1,
         step: 0.05,
-        unit: UnitText.Percentage,
+        unit: Text.PercentageUnit,
     },
 } satisfies Record<string, EngineConfigurationOption>
