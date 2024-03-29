@@ -130,7 +130,17 @@ export abstract class Note extends Archetype {
     scheduleReplaySFX() {
         if (!this.import.judgment) return
 
-        this.scheduleSFX()
+        switch (this.import.judgment) {
+            case Judgment.Perfect:
+                effect.clips.perfect.schedule(this.hitTime, sfxDistance)
+                break
+            case Judgment.Great:
+                effect.clips.great.schedule(this.hitTime, sfxDistance)
+                break
+            case Judgment.Good:
+                effect.clips.good.schedule(this.hitTime, sfxDistance)
+                break
+        }
     }
 
     render() {
