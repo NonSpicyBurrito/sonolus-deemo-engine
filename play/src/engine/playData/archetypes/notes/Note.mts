@@ -1,4 +1,4 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
 import { approach, noteLayout } from '../../../../../../shared/src/engine/data/note.mjs'
 import {
     circularEffectLayout,
