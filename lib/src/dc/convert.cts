@@ -3,7 +3,7 @@ import {
     EngineArchetypeName,
     LevelData,
     LevelDataEntity,
-} from 'sonolus-core'
+} from '@sonolus/core'
 import { DC, DCBpmChangeObject, DCObject, DCSlideNote, DCTapNote } from './index.cjs'
 
 type Handler<T extends DCObject> = (object: T) => {
@@ -15,10 +15,6 @@ export const dcToLevelData = (dc: DC, offset = 0): LevelData => {
     const entities: LevelDataEntity[] = [
         {
             archetype: 'Initialization',
-            data: [],
-        },
-        {
-            archetype: 'InputManager',
             data: [],
         },
         {

@@ -1,14 +1,14 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
 import { approach, noteLayout } from '../../../../../../shared/src/engine/data/note.mjs'
 import {
     circularEffectLayout,
     linearEffectLayout,
 } from '../../../../../../shared/src/engine/data/particle.mjs'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, getScheduleSFXTime, sfxDistance } from '../../effect.mjs'
 import { note, noteHitbox } from '../../note.mjs'
 import { getZ, layer } from '../../skin.mjs'
-import { windows } from '../../windows.mjs'
 
 export abstract class Note extends Archetype {
     hasInput = true
@@ -30,7 +30,7 @@ export abstract class Note extends Archetype {
 
     abstract bucket: Bucket
 
-    data = this.defineData({
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
@@ -76,7 +76,7 @@ export abstract class Note extends Archetype {
     }
 
     preprocess() {
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
         this.scheduleSFXTime = getScheduleSFXTime(this.targetTime)
 
@@ -85,7 +85,7 @@ export abstract class Note extends Archetype {
 
         this.spawnTime = Math.min(this.visualTime.min, this.scheduleSFXTime)
 
-        if (options.mirror) this.data.lane *= -1
+        if (options.mirror) this.import.lane *= -1
     }
 
     spawnOrder() {
@@ -103,10 +103,10 @@ export abstract class Note extends Archetype {
         this.inputTime.min = this.targetTime + windows.good.min + input.offset
         this.inputTime.max = this.targetTime + windows.good.max + input.offset
 
-        noteLayout(this.data.lane, this.data.size).copyTo(this.layout)
-        this.z = getZ(layer.note, this.targetTime, this.data.lane)
+        noteLayout(this.import.lane, this.import.size).copyTo(this.layout)
+        this.z = getZ(layer.note, this.targetTime, this.import.lane)
 
-        noteHitbox(this.data.lane, this.data.size).copyTo(this.hitbox)
+        noteHitbox(this.import.lane, this.import.size).copyTo(this.hitbox)
 
         this.result.accuracy = windows.good.max
     }
@@ -172,13 +172,13 @@ export abstract class Note extends Archetype {
     }
 
     playLinearNoteEffect() {
-        const layout = linearEffectLayout(this.data.lane, this.data.size)
+        const layout = linearEffectLayout(this.import.lane, this.import.size)
 
         this.effects.linear.spawn(layout, 0.3, false)
     }
 
     playCircularNoteEffect() {
-        const layout = circularEffectLayout(this.data.lane, this.data.size)
+        const layout = circularEffectLayout(this.import.lane, this.import.size)
 
         this.effects.circular.spawn(layout, 0.3, false)
     }

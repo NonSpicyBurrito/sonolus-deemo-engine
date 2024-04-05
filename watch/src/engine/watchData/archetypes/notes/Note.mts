@@ -1,9 +1,10 @@
-import { EngineArchetypeDataName } from 'sonolus-core'
+import { EngineArchetypeDataName } from '@sonolus/core'
 import { approach, noteLayout } from '../../../../../../shared/src/engine/data/note.mjs'
 import {
     circularEffectLayout,
     linearEffectLayout,
 } from '../../../../../../shared/src/engine/data/particle.mjs'
+import { windows } from '../../../../../../shared/src/engine/data/windows.mjs'
 import { options } from '../../../configuration/options.mjs'
 import { effect, sfxDistance } from '../../effect.mjs'
 import { note } from '../../note.mjs'
@@ -19,10 +20,14 @@ export abstract class Note extends Archetype {
         circular: ParticleEffect
     }
 
-    data = this.defineData({
+    abstract bucket: Bucket
+
+    import = this.defineImport({
         beat: { name: EngineArchetypeDataName.Beat, type: Number },
         lane: { name: 'lane', type: Number },
         size: { name: 'size', type: Number },
+        judgment: { name: EngineArchetypeDataName.Judgment, type: DataType<Judgment> },
+        accuracy: { name: EngineArchetypeDataName.Accuracy, type: Number },
     })
 
     targetTime = this.entityMemory(Number)
@@ -39,20 +44,44 @@ export abstract class Note extends Archetype {
     z = this.entityMemory(Number)
 
     globalPreprocess() {
+        const toMs = ({ min, max }: JudgmentWindow) => ({
+            min: Math.round(min * 1000),
+            max: Math.round(max * 1000),
+        })
+
+        this.bucket.set({
+            perfect: toMs(windows.perfect),
+            great: toMs(windows.great),
+            good: toMs(windows.good),
+        })
+
         this.life.miss = -40
     }
 
     preprocess() {
-        this.targetTime = bpmChanges.at(this.data.beat).time
+        this.targetTime = bpmChanges.at(this.import.beat).time
 
         this.visualTime.max = this.targetTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        if (options.mirror) this.data.lane *= -1
+        if (options.mirror) this.import.lane *= -1
 
-        if (options.sfxEnabled) this.scheduleSFX()
+        if (options.sfxEnabled) {
+            if (replay.isReplay) {
+                this.scheduleReplaySFX()
+            } else {
+                this.scheduleSFX()
+            }
+        }
 
         this.result.time = this.targetTime
+
+        if (!replay.isReplay) {
+            this.result.bucket.index = this.bucket.index
+        } else if (this.import.judgment) {
+            this.result.bucket.index = this.bucket.index
+            this.result.bucket.value = this.import.accuracy * 1000
+        }
     }
 
     spawnTime() {
@@ -60,7 +89,7 @@ export abstract class Note extends Archetype {
     }
 
     despawnTime() {
-        return this.visualTime.max
+        return this.hitTime
     }
 
     initialize() {
@@ -82,16 +111,36 @@ export abstract class Note extends Archetype {
         this.despawnTerminate()
     }
 
+    get hitTime() {
+        return this.targetTime + (replay.isReplay ? this.import.accuracy : 0)
+    }
+
     globalInitialize() {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        noteLayout(this.data.lane, this.data.size).copyTo(this.layout)
-        this.z = getZ(layer.note, this.targetTime, this.data.lane)
+        noteLayout(this.import.lane, this.import.size).copyTo(this.layout)
+        this.z = getZ(layer.note, this.targetTime, this.import.lane)
     }
 
     scheduleSFX() {
-        effect.clips.perfect.schedule(this.targetTime, sfxDistance)
+        effect.clips.perfect.schedule(this.hitTime, sfxDistance)
+    }
+
+    scheduleReplaySFX() {
+        if (!this.import.judgment) return
+
+        switch (this.import.judgment) {
+            case Judgment.Perfect:
+                effect.clips.perfect.schedule(this.hitTime, sfxDistance)
+                break
+            case Judgment.Great:
+                effect.clips.great.schedule(this.hitTime, sfxDistance)
+                break
+            case Judgment.Good:
+                effect.clips.good.schedule(this.hitTime, sfxDistance)
+                break
+        }
     }
 
     render() {
@@ -102,6 +151,8 @@ export abstract class Note extends Archetype {
     }
 
     despawnTerminate() {
+        if (replay.isReplay && !this.import.judgment) return
+
         if (options.noteEffectEnabled) this.playNoteEffects()
     }
 
@@ -111,13 +162,13 @@ export abstract class Note extends Archetype {
     }
 
     playLinearNoteEffect() {
-        const layout = linearEffectLayout(this.data.lane, this.data.size)
+        const layout = linearEffectLayout(this.import.lane, this.import.size)
 
         this.effects.linear.spawn(layout, 0.3, false)
     }
 
     playCircularNoteEffect() {
-        const layout = circularEffectLayout(this.data.lane, this.data.size)
+        const layout = circularEffectLayout(this.import.lane, this.import.size)
 
         this.effects.circular.spawn(layout, 0.3, false)
     }

@@ -8,7 +8,11 @@ export class Stage extends Archetype {
     effectId = this.entityMemory(ParticleEffectInstanceId)
 
     spawnOrder() {
-        return 2
+        return 1
+    }
+
+    shouldSpawn() {
+        return entityInfos.get(0).state === EntityState.Despawned
     }
 
     initialize() {
