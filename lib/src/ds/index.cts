@@ -5,7 +5,7 @@ export type DS = {
 
 export type DSNote = {
     $id: string
-    pos: number
+    pos?: number
     size: number
     _time: number
 }
