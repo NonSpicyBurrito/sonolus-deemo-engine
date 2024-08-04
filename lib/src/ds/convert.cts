@@ -13,12 +13,13 @@ export const dsToDC = (ds: DS): DC => {
     const slideIds = ds.links.flatMap((link) => link.notes.map((note) => note.$ref))
 
     for (const note of ds.notes) {
-        if (note.pos > 2) continue
+        const pos = note.pos ?? 0
+        if (pos > 2) continue
 
         dc.push({
             type: slideIds.includes(note.$id) ? 'slide' : 'tap',
             beat: note._time,
-            lane: note.pos * 4,
+            lane: pos * 4,
             size: note.size * 2,
         })
     }
