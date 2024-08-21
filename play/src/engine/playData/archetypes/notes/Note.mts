@@ -77,7 +77,9 @@ export abstract class Note extends Archetype {
         this.visualTime.max = this.targetTime
         this.visualTime.min = this.visualTime.max - note.duration
 
-        this.spawnTime = this.visualTime.min
+        this.inputTime.min = this.targetTime + windows.good.min + input.offset
+
+        this.spawnTime = Math.min(this.visualTime.min, this.inputTime.min)
 
         if (options.mirror) this.import.lane *= -1
 
@@ -96,7 +98,6 @@ export abstract class Note extends Archetype {
         if (options.hidden > 0)
             this.visualTime.hidden = this.visualTime.max - note.duration * options.hidden
 
-        this.inputTime.min = this.targetTime + windows.good.min + input.offset
         this.inputTime.max = this.targetTime + windows.good.max + input.offset
 
         noteLayout(this.import.lane, this.import.size).copyTo(this.layout)
