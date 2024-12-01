@@ -4,8 +4,8 @@ A recreation of Deemo engine in [Sonolus](https://sonolus.com).
 
 ## Links
 
--   [Sonolus Website](https://sonolus.com)
--   [Sonolus Wiki](https://github.com/NonSpicyBurrito/sonolus-wiki)
+- [Sonolus Website](https://sonolus.com)
+- [Sonolus Wiki](https://github.com/NonSpicyBurrito/sonolus-wiki)
 
 ## Installation
 
@@ -27,24 +27,24 @@ Partial database engine item compatible with [sonolus-express](https://github.co
 
 Converts DS (Deemo Source) to DC (Deemo Chart).
 
--   `ds`: Deemo Source.
+- `ds`: Deemo Source.
 
 ### `dcToLevelData(dc, offset?)`
 
 Converts DC (Deemo Chart) to Level Data.
 
--   `dc`: Deemo Chart.
--   `offset`: offset (default: `0`).
+- `dc`: Deemo Chart.
+- `offset`: offset (default: `0`).
 
 ### Assets
 
 The following assets are exposed as package entry points:
 
--   `EngineConfiguration`
--   `EnginePlayData`
--   `EngineWatchData`
--   `EnginePreviewData`
--   `EngineTutorialData`
--   `EngineThumbnail`
+- `EngineConfiguration`
+- `EnginePlayData`
+- `EngineWatchData`
+- `EnginePreviewData`
+- `EngineTutorialData`
+- `EngineThumbnail`
 
 In Node.js, you can obtain path to assets using `require.resolve('sonolus-deemo-engine/EngineConfiguration')` or `import.meta.resolve('sonolus-deemo-engine/EngineConfiguration')`.
