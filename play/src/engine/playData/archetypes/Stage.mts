@@ -20,12 +20,12 @@ export class Stage extends Archetype {
     }
 
     touch() {
-        if (!this.shouldPlayJudgmentLineEffect) return
-
         for (const touch of touches) {
             if (!touch.started) continue
 
-            this.playJudgmentLineEffect()
+            streams.set(0, time.now, 0)
+
+            if (this.shouldPlayJudgmentLineEffect) this.playJudgmentLineEffect()
             return
         }
     }

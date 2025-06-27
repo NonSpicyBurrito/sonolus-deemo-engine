@@ -5,6 +5,9 @@ import { scaledScreen } from '../scaledScreen.mjs'
 import { layer, skin } from '../skin.mjs'
 
 export class Stage extends Archetype {
+    nextTime = this.entityMemory(Number)
+    effectId = this.entityMemory(ParticleEffectInstanceId)
+
     spawnTime() {
         return -999999
     }
@@ -13,12 +16,13 @@ export class Stage extends Archetype {
         return 999999
     }
 
-    initialize() {
-        if (this.shouldPlayJudgmentLineEffect) this.playJudgmentLineEffect()
-    }
-
     updateParallel() {
-        if (this.shouldPlayJudgmentLineEffect && time.skip) this.playJudgmentLineEffect()
+        if (this.shouldPlayJudgmentLineEffect && (time.skip || time.now >= this.nextTime)) {
+            this.nextTime = streams.getNextKey(0, time.now)
+            if (this.nextTime === time.now) this.nextTime = 999999
+
+            this.playJudgmentLineEffect()
+        }
 
         this.drawStage()
         this.drawStageCover()
@@ -62,6 +66,7 @@ export class Stage extends Archetype {
             b: 0,
         }).translate(0, 1)
 
-        particle.effects.judgmentLine.spawn(layout, 6, true)
+        particle.effects.destroy(this.effectId)
+        this.effectId = particle.effects.judgmentLine.spawn(layout, 6, true)
     }
 }
