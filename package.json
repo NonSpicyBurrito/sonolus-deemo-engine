@@ -11,8 +11,9 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "exports": {
-    ".": "./dist/index.cjs",
+    ".": "./dist/index.js",
     "./EngineConfiguration": "./dist/EngineConfiguration",
     "./EnginePlayData": "./dist/EnginePlayData",
     "./EngineWatchData": "./dist/EngineWatchData",
