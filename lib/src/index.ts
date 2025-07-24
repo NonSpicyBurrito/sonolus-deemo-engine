@@ -5,7 +5,7 @@ export * from './dc/index.js'
 export { dsToDC } from './ds/convert.js'
 export * from './ds/index.js'
 
-export const version = '1.5.4'
+export const version = '1.6.0'
 
 export const databaseEngineItem = {
     name: 'deemo',
