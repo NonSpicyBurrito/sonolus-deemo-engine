@@ -8,7 +8,7 @@ import { bucketWindows } from '../../../../../../shared/src/engine/data/windows.
 import { options } from '../../../configuration/options.js'
 import { effect, sfxDistance } from '../../effect.js'
 import { note } from '../../note.js'
-import { getZ, layer } from '../../skin.js'
+import { layer } from '../../skin.js'
 
 export abstract class Note extends Archetype {
     hasInput = true
@@ -38,7 +38,6 @@ export abstract class Note extends Archetype {
     initialized = this.entityMemory(Boolean)
 
     layout = this.entityMemory(Rect)
-    z = this.entityMemory(Number)
 
     globalPreprocess() {
         this.bucket.set(bucketWindows)
@@ -107,7 +106,6 @@ export abstract class Note extends Archetype {
             this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         noteLayout(this.import.lane, this.import.size).copyTo(this.layout)
-        this.z = getZ(layer.note, this.targetTime, this.import.lane)
     }
 
     scheduleSFX() {
@@ -134,7 +132,7 @@ export abstract class Note extends Archetype {
         const y = approach(this.visualTime.min, this.visualTime.max, time.now)
         const a = Math.unlerpClamped(0.175, 0.25, y)
 
-        this.sprite.draw(this.layout.mul(y), this.z, a)
+        this.sprite.draw(this.layout.mul(y), [layer.note, -this.targetTime, -this.import.lane], a)
     }
 
     despawnTerminate() {

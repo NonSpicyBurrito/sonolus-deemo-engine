@@ -40,7 +40,7 @@ export class Stage extends Archetype {
             b: note.h,
         }).translate(0, 1)
 
-        skin.sprites.judgmentLine.draw(layout, layer.judgmentLine, 1)
+        skin.sprites.judgmentLine.draw(layout, [layer.judgmentLine], 1)
     }
 
     drawStageCover() {
@@ -53,7 +53,7 @@ export class Stage extends Archetype {
                 t: scaledScreen.t,
                 b: Math.lerp(scaledScreen.t, 1, options.stageCover),
             }),
-            layer.cover,
+            [layer.cover],
             1,
         )
     }

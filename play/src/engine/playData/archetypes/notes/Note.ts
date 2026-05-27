@@ -8,7 +8,7 @@ import { bucketWindows, windows } from '../../../../../../shared/src/engine/data
 import { options } from '../../../configuration/options.js'
 import { effect, sfxDistance } from '../../effect.js'
 import { note, noteHitbox } from '../../note.js'
-import { getZ, layer } from '../../skin.js'
+import { layer } from '../../skin.js'
 
 export abstract class Note extends Archetype {
     hasInput = true
@@ -48,7 +48,6 @@ export abstract class Note extends Archetype {
     inputTime = this.entityMemory(Range)
 
     layout = this.entityMemory(Rect)
-    z = this.entityMemory(Number)
 
     globalPreprocess() {
         this.bucket.set(bucketWindows)
@@ -83,7 +82,6 @@ export abstract class Note extends Archetype {
             this.hiddenTime = this.visualTime.max - note.duration * options.hidden
 
         noteLayout(this.import.lane, this.import.size).copyTo(this.layout)
-        this.z = getZ(layer.note, this.targetTime, this.import.lane)
 
         noteHitbox(this.import.lane, this.import.size).copyTo(this.hitbox)
 
@@ -118,7 +116,11 @@ export abstract class Note extends Archetype {
         const y = approach(this.visualTime.min, this.visualTime.max, time.now)
         const a = Math.unlerpClamped(0.175, 0.25, y)
 
-        this.sprites.note.draw(this.layout.mul(y), this.z, a)
+        this.sprites.note.draw(
+            this.layout.mul(y),
+            [layer.note, -this.targetTime, -this.import.lane],
+            a,
+        )
     }
 
     playHitEffects() {
