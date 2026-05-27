@@ -31,11 +31,11 @@ export const noteDisplay = {
             const t = 0.5 - note.h * 2
             const b = 0.5 + note.h * 2
 
-            skin.sprites.draw(id, new Rect({ l, r, t, b }), layer.note, a)
+            skin.sprites.draw(id, new Rect({ l, r, t, b }), [layer.note], a)
         } else {
             const y = mode === Mode.Fall ? approach(0, 2, segment.time) : 1
 
-            skin.sprites.draw(id, noteLayout(0, 2).mul(y), layer.note, 1)
+            skin.sprites.draw(id, noteLayout(0, 2).mul(y), [layer.note], 1)
         }
     },
 
