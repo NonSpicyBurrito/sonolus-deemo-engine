@@ -1,4 +1,5 @@
 import { ParticleEffectName } from '@sonolus/core'
+
 import {
     circularEffectLayout,
     linearEffectLayout,

@@ -4,6 +4,7 @@ import {
     LevelData,
     LevelDataEntity,
 } from '@sonolus/core'
+
 import { DC, DCBpmChangeObject, DCObject, DCSlideNote, DCTapNote } from './index.js'
 
 type Handler<T extends DCObject> = (object: T) => {
