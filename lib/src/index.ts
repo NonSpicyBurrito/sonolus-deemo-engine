@@ -1,4 +1,4 @@
-import { DatabaseEngineItem } from '@sonolus/core'
+import { DatabaseEngineItem, TextFunction } from '@sonolus/core'
 
 export { dcToLevelData } from './dc/convert.js'
 export * from './dc/index.js'
@@ -7,15 +7,19 @@ export * from './ds/index.js'
 
 export const version = '1.6.3'
 
+export const engineFullName = {
+    en: 'Deemo',
+} as const
+
+export const engineShortName = {
+    en: 'Deemo',
+} as const
+
 export const databaseEngineItem = {
     name: 'deemo',
     version: 13,
-    title: {
-        en: 'Deemo',
-    },
-    subtitle: {
-        en: 'Deemo',
-    },
+    title: { en: `${TextFunction.Localize}:${JSON.stringify(engineShortName)}` },
+    subtitle: { en: `${TextFunction.Localize}:${JSON.stringify(engineFullName)}` },
     author: {
         en: 'Burrito#1000',
     },
